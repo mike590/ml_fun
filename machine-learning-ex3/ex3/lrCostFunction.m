@@ -18,17 +18,18 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
-tempTheta = theta;
-tempTheta(1) = 0;
-regTerm = (lambda/(2*m))*tempTheta;
-
-
 h = sigmoid(X*theta);
 
+tempTheta = theta;
+tempTheta(1) = 0;
+
+costRegTerm = (lambda/(2*m))*(sum(tempTheta.^2));
 jUnReg = 1/m * ((-y'*log(h))-(1-y)'*(log(1-h)));
+J = jUnReg + costRegTerm;
 
-J = jUnReg + regTerm;
-
+gradRegTerm = (lambda/m)*tempTheta;
+gradUnReg = (X'*(h-y))./m;
+grad = gradUnReg + gradRegTerm;
 
 
 %
